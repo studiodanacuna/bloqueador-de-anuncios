@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,15 +26,24 @@
                 "[id^='ad-']"
             ];
 
-            selectoresDeAnuncios.forEach(selector => {
-                const anuncios = iframeDocument.querySelectorAll(selector);
-                anuncios.forEach(anuncio => {
-                    console.log('Elemento eliminado: ', anuncio);
-                    anuncio.remove();  // Eliminar el anuncio
+            function eliminarAnuncios() {
+                selectoresDeAnuncios.forEach(selector => {
+                    const anuncios = iframeDocument.querySelectorAll(selector);
+                    anuncios.forEach(anuncio => {
+                        console.log('Elemento eliminado: ', anuncio);
+                        anuncio.remove();  // Eliminar el anuncio
+                    });
                 });
-            });
+            }
 
-            console.log("Anuncios bloqueados en zonaaps.com.");
+            // Ejecutar la eliminación de anuncios inicialmente
+            eliminarAnuncios();
+
+            // Monitorizar cambios en el DOM para eliminar anuncios dinámicamente
+            const observer = new MutationObserver(eliminarAnuncios);
+            observer.observe(iframeDocument.body, { childList: true, subtree: true });
+
+            console.log("Bloqueador de anuncios activo.");
         };
     }
 
